@@ -42,8 +42,7 @@ func transfer(ctx *gin.Context) {
 		ctx.AbortWithStatus(http.StatusNotFound)
 		return
 	}
-	requestURL := strings.TrimLeft(ctx.Param("request"), " /")
-	requestURL = strings.Replace(requestURL, ":/", "://", 1)
+	requestURL := strings.TrimLeft(ctx.Request.RequestURI, " /")
 	req := httplib.Get(requestURL).SetTimeout(timeout, timeout*120)
 	if strings.HasPrefix(requestURL, "https://") {
 		req.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
